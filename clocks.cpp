@@ -1,140 +1,184 @@
-//written by Alexander Molina Nasaev
-//Caution! Wet code!
-// ```````                                                        ```````
-//````                                                             `````
-//``                                                                 ```
-//`                                                                     
-//                               ./ssss/.                               
-//                             -hy+:-::+yh-                             
-//                            od/::::::::/do                            
-//                          `yh::::::::::::yy`                          
-//                         `hs::::::::::::::sh`                         
-//                        .do::::::::::::::::od.                        
-//                       -m+::::://:::::::::::+m-                       
-//                      /m/:::/++//+/::::::::::/m/                      
-//                     od::::-::sms::::::::::::::do                     
-//                    sh::::::::dNd:::::::::::::::hs                    
-//                  `hy::/o+::::dNd:-::::::::::::::yh`                  
-//                 .do::dNNNN/::dNd:::::::::::::::::sd.                 
-//                -m+:::NNNNNoodNNs::::::::::::::::::+m-                
-//               :m/:::::oyhdNNNm/::::::::::::::::::::/m:               
-//              +d/::::::smNNNNNNh+::::::+oyho:::::::-:/d+              
-//             sd::::::yNNdsmNNNNNNNmmmNNNNdmNms:::::::::ds             
-//           `yy:::::::NNy:::sNNNNNNNNNh+::::omNms::::::::yy`           
-//          `ds::::::::NNy:::::+shdmmmNNNdyo+::odm/::::::::sd`          
-//         .do:::::::::NNy:::::::::::::/oydNNNs::::::-::::::od.         
-//        -m+:::::::::/yd+::::::::::::::::::+dNNs::::/ys:+hd/+m-        
-//       /m/::::::::://+++/:::::::::::::::::::+dNN+:/+:/yy+:::/m/       
-//      /m::-::::::::::::::::::::::::::::://////+o::::+oo+::-:::m/      
-//     `N/::+ssssssssssssssssssssssssssyhyyssyyssssssssssssss/::/N`     
-//     -N:::shdddddhdddddddddddddddddddhddddddhddddddhddddddh+:::N-     
-//      hy::::::::::::::::::::::::::::::::::::::::::::::::::::::yh      
-//      `ohs+::::::::::::::::::::::::::::::::::::::::::::::::+sho`      
-//         -+osssssssssssssssssssssssssssssssssssssssssssssso+-         
-//``                                                                  ``
-//```                                                                ```
-//``````                                                          ``````
-//```````                                                        ```````
-
 #include "clocks.h"
 #include <ctime>
+#include "outlib.h"
 
-/*Like a professional programmer i'm using those parameters. Even if they are 
-unnecessary*/
-int main(int argc, char* argv[])
+Time::Time()
 {
-	setlocale(LC_ALL, "rus");
+	this->hours = 0;
+	this->minutes = 0;
+	this->seconds = 0;
+};
 
-	system("title TPClock");
+Time::~Time()
+{
+};
 
-	OutManager outManager;
-
-	outManager.printMessage("Программа TPClock приветствует Вас!");
-	outManager.printMessage("\n");
-	outManager.printMessage("С помощью TPClock Вы можете заглянуть в будущее и узнать какое время будет через 23 часа");
-	outManager.printMessage("\n");
-	Sleep(2000);
-
-	/*My imagination was fucked*/
-	SkyNet skynet;
-	TimeFinder timeFinder;
-	Time time, answerTime;
-	IATA* strategy;
-
-	/*Please, don't ask me about this shit!*/
-	bool wrong_command = true;
-	while (wrong_command)
+bool operator == (Time &time1, Time &time2)
+{
+	if (time1.hours == time2.hours)
 	{
-		wrong_command = false;
-		system("cls");
-		outManager.printMessage("Введите 1, чтобы отправить DeLorian");
-		outManager.printMessage("\n");
-		outManager.printMessage("Введите 2, чтобы отправить T800 (ответ будет через 23 часа)");
-		outManager.printMessage("\n");
-		outManager.printMessage("Введите 3, чтобы завершить работу программы");
-		outManager.printMessage("\n");
-		int command;
-
-		cin >> command;
-		switch (command)
+		if (time1.minutes == time2.minutes)
 		{
-			case 1:
+			if (time1.seconds == time2.seconds)
 			{
-				strategy = new DeLorean;
-				skynet.setStrategy(strategy);
-			};
-			break;
-			case 2:
-			{
-				strategy = new T800;
-				skynet.setStrategy(strategy);
-			};
-			break;
-			case 3:
-			{
-				system("cls");
-				outManager.printMessage("Пока!");
-				outManager.printMessage("\n");
-				Sleep(3000);
-				exit(1);
-			};
-			break;
-			default: 
-			{
-				system("cls");
-				wrong_command = true;
-				outManager.printMessage("Ты серьезно? Прочитай инструкцию внимательнее (это не сложно)");
-				outManager.printMessage("\n");
-				outManager.printMessage("Давай попробуем еще раз!");
-				outManager.printMessage("\n");
-				Sleep(2000);
+				return true;
 			};
 		};
 	};
-
-	system("cls");
-	time = timeFinder.findTime();
-
-	answerTime = skynet.getAnswer();
-
-	outManager.printMessage("Начальное время ");
-	outManager.printMessage(time.getHours());
-	outManager.printMessage(":");
-	outManager.printMessage(time.getMinutes());
-	outManager.printMessage(":");
-	outManager.printMessage(time.getSeconds());
-	outManager.printMessage("\n");
-
-	outManager.printMessage("Новое время ");
-	outManager.printMessage(answerTime.getHours());
-	outManager.printMessage(":");
-	outManager.printMessage(answerTime.getMinutes());
-	outManager.printMessage(":");
-	outManager.printMessage(answerTime.getSeconds());
-	outManager.printMessage("\n");
-
-	system("pause");
-
-	return 0;
+	return false;
 };
 
+bool operator != (Time &time1, Time &time2)
+{
+	return !(time1 == time2);
+};
+
+
+
+TimeFinder::TimeFinder()
+{
+	this->hours = 0;
+	this->minutes = 0;
+	this->seconds = 0;
+};
+
+TimeFinder::~TimeFinder()
+{
+};
+
+Time TimeFinder::findTime()
+{
+	time_t result = time(NULL);
+
+	char str[26];
+	ctime_s(str, sizeof str, &result);
+	string strr = str;
+	
+	Time answer;
+
+	answer.setHours(atoi(strr.substr(11, 2).c_str()));
+	answer.setMinutes(atoi(strr.substr(14, 2).c_str()));
+	answer.setSeconds(atoi(strr.substr(17, 2).c_str()));
+
+	return answer;
+};
+
+
+
+SkyNet::SkyNet()
+{
+};
+
+SkyNet::~SkyNet()
+{
+	delete device;
+};
+
+void SkyNet::setStrategy(IATA* _device)
+{
+	this->device = _device;
+};
+
+Time SkyNet::getAnswer()
+{
+	Time answer;
+
+	device->countTime();
+	answer = device->getTime();
+	
+	return answer;
+};
+
+
+
+IATA::IATA()
+{
+};
+
+IATA::~IATA()
+{
+};
+
+Time IATA::getTime()
+{
+	Time answer;
+	answer.setHours(this->hours);
+	answer.setMinutes(this->minutes);
+	answer.setSeconds(this->seconds);
+
+	return answer;
+};
+
+
+
+DeLorean::DeLorean()
+{
+	this->hours = 0;
+	this->minutes = 0;
+	this->seconds = 0;
+};
+
+DeLorean::~DeLorean()
+{
+};
+
+/*I'm dissapointed. That's not the algorithm that I want. I'm just so stupid to do it*/
+void DeLorean::countTime()
+{
+	TimeFinder timeFinder;
+	Time time;
+	int timePeriod = 23;
+	time = timeFinder.findTime();
+	this->hours = time.getHours();
+	this->minutes = time.getMinutes();
+	this->seconds = time.getSeconds();
+	if (this->hours == 0) this->hours +=24 ;
+	this->hours += timePeriod;
+	this->hours -= 24;
+
+};
+
+
+
+T800::T800()
+{
+	this->hours = 0;
+	this->minutes = 0;
+	this->seconds = 0;
+};
+
+T800::~T800()
+{
+};
+
+void T800::countTime()
+{
+	TimeFinder timeFinder;
+	Time now, then;
+	OutManager outManager;
+	now = timeFinder.findTime();
+	this->hours = now.getHours();
+	this->minutes = now.getMinutes();
+	this->seconds = now.getSeconds();
+
+	int steps = 0;
+	int i = 0;
+	steps = 60 * 60 * 23;
+	float one_percent = steps / 100;
+
+	/*It works like donkey. We arrived? We arrived? We arrived?*/
+	while (i < steps)
+	{
+		
+		then = timeFinder.findTime();
+		if (then != now)
+		{
+			now = timeFinder.findTime();
+			this->hours = now.getHours();
+			this->minutes = now.getMinutes();
+			this->seconds = now.getSeconds();
+			i++;
+			outManager.terminatorOut(i, one_percent);
+		};
+	};
+};

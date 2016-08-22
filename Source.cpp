@@ -39,6 +39,8 @@
 #include "clocks.h"
 #include <ctime>
 
+/*Like a professional programmer i'm using those parameters. Even if they are 
+unnecessary*/
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "rus");
@@ -47,13 +49,13 @@ int main(int argc, char* argv[])
 
 	OutManager outManager;
 
-	outManager.printMessage("Программа TPClock приветствует Вас!");
+	outManager.printMessage("TPClock is greeting you!");
 	outManager.printMessage("\n");
-	outManager.printMessage("С помощью TPClock Вы можете заглянуть в будущее и узнать какое время будет через 23 часа");
+	outManager.printMessage("TPClock will add you to travel to the future");
 	outManager.printMessage("\n");
 	Sleep(2000);
 
-	/*My imagination was fucked. */
+	/*My imagination was fucked*/
 	SkyNet skynet;
 	TimeFinder timeFinder;
 	Time time, answerTime;
@@ -65,11 +67,11 @@ int main(int argc, char* argv[])
 	{
 		wrong_command = false;
 		system("cls");
-		outManager.printMessage("Введите 1, чтобы отправить DeLorian");
+		outManager.printMessage("Enter 1 to send DeLorian");
 		outManager.printMessage("\n");
-		outManager.printMessage("Введите 2, чтобы отправить t800 (ответ будет через 23 часа)");
+		outManager.printMessage("Enter 2 to send T800");
 		outManager.printMessage("\n");
-		outManager.printMessage("Введите 3, чтобы завершить работу программы");
+		outManager.printMessage("Enter 3 to exit");
 		outManager.printMessage("\n");
 		int command;
 
@@ -101,9 +103,9 @@ int main(int argc, char* argv[])
 			{
 				system("cls");
 				wrong_command = true;
-				outManager.printMessage("Ты серьезно? Прочитай инструкцию внимательнее (это не сложно)");
+				outManager.printMessage("Are you kidding me? Read the instruction one more time");
 				outManager.printMessage("\n");
-				outManager.printMessage("Давай попробуем еще раз!");
+				outManager.printMessage("Let's try again!");
 				outManager.printMessage("\n");
 				Sleep(2000);
 			};
@@ -115,7 +117,7 @@ int main(int argc, char* argv[])
 
 	answerTime = skynet.getAnswer();
 
-	outManager.printMessage("Начальное время ");
+	outManager.printMessage("Start time ");
 	outManager.printMessage(time.getHours());
 	outManager.printMessage(":");
 	outManager.printMessage(time.getMinutes());
@@ -123,7 +125,7 @@ int main(int argc, char* argv[])
 	outManager.printMessage(time.getSeconds());
 	outManager.printMessage("\n");
 
-	outManager.printMessage("Новое время ");
+	outManager.printMessage("Finish time ");
 	outManager.printMessage(answerTime.getHours());
 	outManager.printMessage(":");
 	outManager.printMessage(answerTime.getMinutes());

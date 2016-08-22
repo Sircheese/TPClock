@@ -41,6 +41,6 @@ void OutManager::terminatorOut(int i, float _one_percent)
 	SetConsoleTextAttribute(handle, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
 	system("cls");
 	cout.setf(ios::fixed);
-	cout << "Т-800 выполняет сложные математические калькуляции. Прогресс (" << setprecision(2) << i / _one_percent << "%) " << endl;
+	cout << "Т-800 is making crazy math calculations. Process (" << setprecision(2) << i / _one_percent << "%) " << endl;
 	SetConsoleTextAttribute(handle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 };
